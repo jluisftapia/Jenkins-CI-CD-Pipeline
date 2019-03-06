@@ -1,50 +1,58 @@
-pipeline {
-  agent any
-  stages {
-    stage('Server') {
-      parallel {
-        stage('Server') {
-          agent {
-            docker {
-              image 'maven:3.5-jdk-8-slim'
+    stages {
+        stage('Version Control') { 
+            steps {
+		withMaven(maven : 'Maven_3_6_0') {
+                    sh 'mvn clean compile' 
+		            }
             }
-
-          }
-          steps {
-            sh '''echo "Building the code of our server, be patient"
-
-
-
-
-
-
-mvn 
--version
-
-mkdir-p target
-touch "target/server.war"'''
-            stash(name: 'server', includes: '**/*.war')
-          }
         }
-        stage('client') {
-          agent {
-            docker {
-              image 'node:6'
-              args '-u 0:0'
+        stage('Build Stage') { 
+            steps {
+		withMaven(maven : 'Maven_3_6_0') {
+                    sh 'mvn clean compile' 
+		            }
             }
-
-          }
-          steps {
-            sh '''echo "Building the code for a client..."
-npm install --save react 
-mkdir -p dist 
-cat > dist/index.html <<EOF 
-Hello, welcome to my pipeline testing!!! 
-EOF 
-touch "dist/client.js"'''
-          }
         }
-      }
+        stage('Unit test'){
+            steps {
+		withMaven(maven : 'Maven_3_6_0') {
+                    sh 'mvn clean compile' 
+		            } 
+            }
+        }
+        stage('Deploy stage') {
+            steps {
+		withMaven(maven : 'Maven_3_6_0') {
+                    sh 'mvn clean compile' 
+		            }
+            }
+        }
+        stage('Deploy') {
+            steps {
+		withMaven(maven : 'Maven_3_6_0') {
+                    sh 'mvn clean compile' 
+		            }
+            }
+        }
+        stage('Auto Test stage') {
+            steps {
+		withMaven(maven : 'Maven_3_6_0') {
+                    sh 'mvn clean compile' 
+	            	}
+            }
+        }
+        stage('Deploy to Production stage') {
+            steps {
+		withMaven(maven : 'Maven_3_6_0') {
+                    sh 'mvn clean compile' 
+	            	}
+            }
+        }
+        stage('Measure + Validate stage') {
+            steps {
+		withMaven(maven : 'Maven_3_6_0') {
+                    sh 'mvn clean compile' 
+		            }
+            }
+        }
     }
-  }
-}
