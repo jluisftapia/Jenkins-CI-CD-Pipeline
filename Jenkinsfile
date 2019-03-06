@@ -1,60 +1,31 @@
-pipeline { 
-    agent any 
+pipeline {
+    agent any
+
     stages {
-        stage('Version Control') { 
+        stage ('Compile Stage') {
+
             steps {
-		withMaven(maven : 'maven_3_6_0') {
-                    sh 'mvn clean compile' 
-		}
+                withMaven(maven : 'maven_3_5_0') {
+                    sh 'mvn clean compile'
+                }
             }
         }
-        stage('Build Stage') { 
+
+        stage ('Testing Stage') {
+
             steps {
-		withMaven(maven : 'maven_3_6_0') {
-                    sh 'mvn clean compile' 
-		}
+                withMaven(maven : 'maven_3_5_0') {
+                    sh 'mvn test'
+                }
             }
         }
-        stage('Unit test'){
+
+
+        stage ('Deployment Stage') {
             steps {
-		withMaven(maven : 'maven_3_6_0') {
-                    sh 'mvn clean compile' 
-		} 
-            }
-        }
-        stage('Deploy stage') {
-            steps {
-		withMaven(maven : 'maven_3_6_0') {
-                    sh 'mvn clean compile' 
-		}
-            }
-        }
-        stage('Deploy') {
-            steps {
-		withMaven(maven : 'maven_3_6_0') {
-                    sh 'mvn clean compile' 
-		}
-            }
-        }
-        stage('Auto Test stage') {
-            steps {
-		withMaven(maven : 'maven_3_6_0') {
-                    sh 'mvn clean compile' 
-		}
-            }
-        }
-        stage('Deploy to Production stage') {
-            steps {
-		withMaven(maven : 'maven_3_6_0') {
-                    sh 'mvn clean compile' 
-		}
-            }
-        }
-        stage('Measure + Validate stage') {
-            steps {
-		withMaven(maven : 'maven_3_6_0') {
-                    sh 'mvn clean compile' 
-		}
+                withMaven(maven : 'maven_3_5_0') {
+                    sh 'mvn deploy'
+                }
             }
         }
     }
